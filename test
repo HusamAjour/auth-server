@@ -1,0 +1,16 @@
+it('Should create a token if user exists and the password is correct', async () => {
+    let userCred = {
+      username: 'Jim',
+      password: 'Halpert321',
+    };
+    let result = await mockRequest.post('/signup').send(userCred);
+
+    let result2 = await mockRequest.post('/signin').send(userCred);
+    let encPass = await bcrypt.comopare(
+      userCred.password,
+      result2.user.password
+    );
+
+    expect(result2.token).toBeTruthy();
+    expect(encPass).toBeTruthy();
+  });
