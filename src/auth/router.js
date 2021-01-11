@@ -35,6 +35,8 @@ async function signUpHandler(req, res) {
 async function signInHandler(req, res) {
   console.log('inside signin route');
   if (req.token) {
+    res.set('token', req.token);
+    res.cookie('token', req.token);
     res.status(200).json({
       token: req.token,
       user: req.user,
