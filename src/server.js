@@ -2,11 +2,13 @@
 
 const express = require('express');
 const app = express();
+const cors = require('cors');
 require('dotenv').config;
 const router = require('./auth/router');
 const notFoundHandler = require('./middleware/404');
 const errorHandler = require('./middleware/500');
 app.use(express.json());
+app.use(cors());
 app.get('/', (req, res) => res.status(200).send('Server was hit successflly!'));
 app.use(router);
 app.use('*', notFoundHandler);
