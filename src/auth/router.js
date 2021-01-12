@@ -53,7 +53,14 @@ async function usersHandler(req, res) {
 }
 
 
-async function oauthHandler(){
-
+async function oauthHandler(req, res){
+  if (req.token) {
+    res.set('token', req.token);
+    res.cookie('token', req.token);
+    res.status(200).json({
+      token: req.token,
+      user: req.user,
+    });
+  }
 }
 module.exports = router;

@@ -39,12 +39,10 @@ async function getRemoteUserInfo(token) {
 
 async function getUser(userObj) {
   let isUser = await users.checkUsername(userObj.login);
-  console.log(isUser);
   let token = await users.generateAToken({
     username: isUser.username,
     password: isUser.password,
   });
-  console.log(token);
   let user = isUser.username;
   return [user, token];
 }
