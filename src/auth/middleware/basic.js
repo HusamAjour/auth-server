@@ -1,7 +1,7 @@
 'use strict';
 
 const base64 = require('base-64');
-const Users = require('../auth/model/users-model');
+const Users = require('../model/users-model');
 
 const basicAuth = async (req, res, next) => {
   console.log('inside basicAuth middleware');
