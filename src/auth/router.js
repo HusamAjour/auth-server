@@ -4,13 +4,16 @@ const express = require('express');
 const Users = require('./model/users-model');
 const base64 = require('base-64');
 const router = express.Router();
-const basicAuth = require('../middleware/basic');
+const basicAuth = require('./middleware/basic');
+const OAuthMiddleware = require('./middleware/oauth');
 const notFoundHandler = require('../middleware/404');
 const errorHandler = require('../middleware/500');
 
 router.post('/signup', signUpHandler);
 router.post('/signin', basicAuth, signInHandler);
 router.get('/users', usersHandler);
+router.get('/users', usersHandler);
+router.get('/oauth', OAuthMiddleware, oauthHandler);
 
 async function signUpHandler(req, res) {
   console.log('inside signup route');
@@ -49,4 +52,8 @@ async function usersHandler(req, res) {
   res.status(200).json(users);
 }
 
+
+async function oauthHandler(){
+
+}
 module.exports = router;
