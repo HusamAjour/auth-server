@@ -18,7 +18,6 @@ i.e.
 - `CLIENT_ID` - e24b982b300fe3bf1d85
 - `SECRET_ID` - dcde8ddf42ee6facc4945cac927bf7712f2ad2b1
 
-
 #### How to initialize/run your application (where applicable)
 
 - e.g. `nodemon` or `npm start`
@@ -30,7 +29,6 @@ i.e.
 - e.g. `POST /oauth/` to do a hanshake using a third-party service (GitHub).
 - e.g. `GET /users/` to get all users.
 - e.g. `GET /secret/` for Bearer Authorization.
-
 
 #### Tests
 
