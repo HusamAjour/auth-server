@@ -12,6 +12,7 @@ class Users {
     let newRecord = new this.schema({
       username: record.username,
       password: await bcrypt.hash(record.password, 10),
+      role: record.role,
     });
     console.log(newRecord.password);
 
@@ -35,6 +36,7 @@ class Users {
     if (user) {
       let auth = await bcrypt.compare(cred.password, user.password);
       if (auth) {
+        console.log(user);
         return user;
       } else {
         return false;
@@ -47,7 +49,7 @@ class Users {
     console.log('Inside generateToken');
     console.log(cred);
     let token = jwt.sign(
-      { username: cred.username, password: cred.password },
+      { username: cred.username, password: cred.password, role: cred.role },
       process.env.SECRET
     );
     return token;
@@ -77,10 +79,33 @@ class Users {
     console.log(secret);
     console.log(token);
     let tokenObject = await jwt.verify(token, secret);
+    console.log(tokenObject);
     console.log('tokenObject : ', tokenObject);
     //let checkUserExist = await this.get({ username: tokenObject.username });
-
     return tokenObject;
+  }
+
+  rolePemissions(role) {
+    switch (role) {
+      case 'admin':
+        return ['read', 'create', 'update', 'delete'];
+      case 'editor':
+        return ['read', 'create', 'update'];
+      case 'writer':
+        return ['read', 'create'];
+      case 'user':
+        return ['read'];
+      default:
+        return null;
+    }
+  }
+  can(role, perm) {
+    let usersRole = this.rolePemissions(role);
+    if (usersRole.includes(perm)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 module.exports = new Users();

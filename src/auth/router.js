@@ -12,11 +12,11 @@ const errorHandler = require('../middleware/500');
 router.post('/signup', signUpHandler);
 router.post('/signin', basicAuth, signInHandler);
 router.get('/users', usersHandler);
-router.get('/users', usersHandler);
 router.get('/oauth', OAuthMiddleware, oauthHandler);
 
 async function signUpHandler(req, res) {
   console.log('inside signup route');
+  console.log(req.headers.authorization);
   if (req.headers.authorization != `Basic Og==`) {
     let authHeader = req.headers.authorization.split(' ');
     if (authHeader[0] != 'Basic') {
@@ -24,7 +24,7 @@ async function signUpHandler(req, res) {
     }
     let basic = authHeader.pop();
     let [username, password] = base64.decode(basic).split(':');
-    let users = await Users.create({ username, password });
+    let users = await Users.create({ username, password, role});
     res.status(200).json(users);
   } else if (req.body.username && req.body.password) {
     console.log('inside signup route req.body');
