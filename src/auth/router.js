@@ -17,16 +17,7 @@ router.get('/oauth', OAuthMiddleware, oauthHandler);
 async function signUpHandler(req, res) {
   console.log('inside signup route');
   console.log(req.headers.authorization);
-  if (req.headers.authorization != `Basic Og==`) {
-    let authHeader = req.headers.authorization.split(' ');
-    if (authHeader[0] != 'Basic') {
-      res.status(500).json({ error: 'Error! something is wrong!' });
-    }
-    let basic = authHeader.pop();
-    let [username, password] = base64.decode(basic).split(':');
-    let users = await Users.create({ username, password, role});
-    res.status(200).json(users);
-  } else if (req.body.username && req.body.password) {
+  if (req.body.username && req.body.password) {
     console.log('inside signup route req.body');
     let users = await Users.create(req.body);
     res.status(200).json(users);
